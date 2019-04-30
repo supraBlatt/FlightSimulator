@@ -5,12 +5,15 @@ using System.Text;
 using System.Threading.Tasks;
 using FlightSimulator.Model;
 using System.Windows.Input;
+using System.ComponentModel;
 
 namespace FlightSimulator.ViewModels
 {
 
-    class AutoControlsViewModel
+    class AutoControlsViewModel : BaseNotify
     {
+
+
         AutoControlModel model = new AutoControlModel();
         public string CommandsString
         {
@@ -21,6 +24,14 @@ namespace FlightSimulator.ViewModels
         public ICommand ClearBtnCommand { get { return model.ClearBtnCommand; } }
         public ICommand OKBtnCommand { get { return model.OKBtnCommand; } }
 
-        public AutoControlsViewModel() { }
+        public AutoControlsViewModel()
+        {
+            model.PropertyChanged += OnModelPropertyChanged;
+        }
+
+        private void OnModelPropertyChanged(object sender, PropertyChangedEventArgs args)
+        {
+            NotifyPropertyChanged(args.PropertyName);
+        }
     }
 }

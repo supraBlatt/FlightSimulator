@@ -25,12 +25,13 @@
         <Label Content="← rudder →" FontSize="17" FontWeight="Bold" Grid.Column="2" Grid.Row="4"
                HorizontalAlignment="Center" VerticalAlignment="Center"/>
         <Label Content="← throttle →" FontSize="17" FontWeight="Bold" Grid.Column="0" Grid.Row="1"
-               HorizontalAlignment="Center" VerticalAlignment="Center">
+               HorizontalAlignment="Center" VerticalAlignment="Center" Width="112">
             <Label.LayoutTransform>
                 <RotateTransform Angle="90"/>
             </Label.LayoutTransform>
         </Label>
-        <Label Content="← elevator →" FontSize="17" FontWeight="Bold" Grid.Column="3" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center">
+        <Label Content="← elevator →" FontSize="17" FontWeight="Bold" Grid.Column="3" Grid.Row="1"
+               HorizontalAlignment="Center" VerticalAlignment="Center" Width="112">
             <Label.LayoutTransform>
                 <RotateTransform Angle="90"/>
             </Label.LayoutTransform>

@@ -24,7 +24,7 @@ namespace FlightSimulator.ViewModels
 
         public double VM_Aileron
         {
-            get {return Math.Truncate(model.Aileron * 100) / 100; }
+            get { return Math.Truncate(model.Aileron * 100) / 100; }
             set { model.Aileron = value; }
         }
 

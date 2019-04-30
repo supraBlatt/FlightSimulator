@@ -24,7 +24,7 @@ namespace FlightSimulator.Views
         public AutoControls()
         {
             InitializeComponent();
-            this.DataContext = new AutoControlsViewModel(CommandsTextBox);
+            this.DataContext = new AutoControlsViewModel();
         }
     }
 }

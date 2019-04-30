@@ -4,29 +4,39 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using FlightSimulator.ViewModels;
 
 namespace FlightSimulator.Model
 {
-    class AutoControlModel
+    class AutoControlModel : BaseNotify
     {
-        public string CommandsString { get; set; }
+        string _commandString;
+        public string CommandsString
+        {
+            get { return _commandString; }
+            set
+            {
+                if (value == _commandString)
+                    return;
+                _commandString = value;
+                NotifyPropertyChanged("CommandsString");
+            }
+        }
 
         public ICommand ClearBtnCommand { get; set; }
         public ICommand OKBtnCommand { get; set; }
         public AutoControlModel() {
-            ClearBtnCommand = new CommandHandler(clearCommands);
-            OKBtnCommand = new CommandHandler(okCommand);
+            ClearBtnCommand = new CommandHandler(ClearCommandsFunc);
+            OKBtnCommand = new CommandHandler(OkCommandFunc);
         }
 
-        void clearCommands()
+        void ClearCommandsFunc()
         {
             CommandsString = "";
-            System.Diagnostics.Debug.WriteLine("clearing ");
         }
 
-        void okCommand()
+        void OkCommandFunc()
         {
-
         }
     }
 }
