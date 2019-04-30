@@ -16,10 +16,11 @@ namespace FlightSimulator.Model
             get { return _commandString; }
             set
             {
-                if (value == _commandString)
-                    return;
-                _commandString = value;
-                NotifyPropertyChanged("CommandsString");
+                if (!value.Equals(_commandString))
+                {
+                    _commandString = value;
+                    NotifyPropertyChanged("CommandsString");
+                }
             }
         }
 
@@ -37,6 +38,8 @@ namespace FlightSimulator.Model
 
         void OkCommandFunc()
         {
+
+            ClearCommandsFunc();
         }
     }
 }

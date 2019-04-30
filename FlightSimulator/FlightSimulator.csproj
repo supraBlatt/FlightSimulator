@@ -88,6 +88,7 @@
     <Compile Include="Model\CommandHandler.cs" />
     <Compile Include="Model\EventArgs\VirtualJoystickEventArgs.cs" />
     <Compile Include="Model\Interface\ISettingsModel.cs" />
+    <Compile Include="Model\ServerAndClient.cs" />
     <Compile Include="ViewModels\AutoControlsViewModel.cs" />
     <Compile Include="ViewModels\BaseNotify.cs" />
     <Compile Include="ViewModels\FlightBoardViewModel.cs" />
@@ -97,6 +98,7 @@
     <Compile Include="Views\AutoControls.xaml.cs">
       <DependentUpon>AutoControls.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\ColorConverter.cs" />
     <Compile Include="Views\FlightBoard.xaml.cs">
       <DependentUpon>FlightBoard.xaml</DependentUpon>
     </Compile>
