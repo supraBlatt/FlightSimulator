@@ -17,7 +17,7 @@ namespace FlightSimulator.Model
         void clearCommands()
         {
             CommandsString = "";
-            System.Diagnostics.Debug.WriteLine("clearing");
+            System.Diagnostics.Debug.WriteLine("clearing ");
         }
     }
 }
