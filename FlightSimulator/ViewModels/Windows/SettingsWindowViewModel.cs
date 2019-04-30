@@ -19,6 +19,7 @@ namespace FlightSimulator.ViewModels.Windows
         public SettingsWindowViewModel(ISettingsModel model)
         {
             this.model = model;
+            model.ReloadSettings();
             this.OKBtnCommand = new CommandHandler(OnOKClick);
             this.CancelBtnCommand = new CommandHandler(OnCancelClick);
         }
@@ -60,7 +61,7 @@ namespace FlightSimulator.ViewModels.Windows
 
         public void ReloadSettings() { model.ReloadSettings(); }
 
-        void OnOKClick() { SaveSettings(); NotifyAll(); }
+        void OnOKClick() { SaveSettings(); }
 
         void OnCancelClick() { ReloadSettings(); NotifyAll(); }
 
