@@ -13,10 +13,14 @@ namespace FlightSimulator.ViewModels.Windows
     public class SettingsWindowViewModel : BaseNotify
     {
         private ISettingsModel model;
+        public ICommand OKBtnCommand { get; set; }
+        public ICommand CancelBtnCommand { get; set; }
 
         public SettingsWindowViewModel(ISettingsModel model)
         {
             this.model = model;
+            this.OKBtnCommand = new CommandHandler(OnOKClick);
+            this.CancelBtnCommand = new CommandHandler(OnCancelClick);
         }
 
         public string FlightServerIP
@@ -49,18 +53,23 @@ namespace FlightSimulator.ViewModels.Windows
             }
         }
 
-     
-
         public void SaveSettings()
         {
             model.SaveSettings();
         }
 
-        public void ReloadSettings()
-        {
-            model.ReloadSettings();
-        }
+        public void ReloadSettings() { model.ReloadSettings(); }
 
+        void OnOKClick() { SaveSettings(); NotifyAll(); }
+
+        void OnCancelClick() { ReloadSettings(); NotifyAll(); }
+
+        void NotifyAll()
+        {
+            NotifyPropertyChanged("FlightInfoPort");
+            NotifyPropertyChanged("FlightCommandPort");
+            NotifyPropertyChanged("FlightServerIP");
+        }
         #region Commands
         #region ClickCommand
         private ICommand _clickCommand;

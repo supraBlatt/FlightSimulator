@@ -17,13 +17,28 @@
             <ColumnDefinition Width="Auto"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-        <TextBlock Padding="3" Margin="5">Flight Server IP:</TextBlock>
-        <TextBox x:Name="flightServerIP" Grid.Column="2" Margin="5"></TextBox>
-        <TextBlock Padding="3"  Grid.Row="1" Margin="5">Flight Info Port:</TextBlock>
-        <TextBox x:Name="flightInfoPort" Grid.Row="1"  Grid.Column="2" Margin="5"></TextBox>
+        <TextBlock Padding="3" Margin="5" Text="Flight Server IP:"/>
+        <TextBox x:Name="flightServerIP"
+                 Text="{Binding FlightInfoPort}" 
+                 Grid.Column="2" Margin="5"/>
+        <TextBlock Padding="3" Grid.Row="1" Margin="5" Text="Flight Info Port:"/>
+        <TextBox x:Name="flightInfoPort" Grid.Row="1"
+                 Text="{Binding FlightServerIP}"
+                 Grid.Column="2" Margin="5"></TextBox>
         <TextBlock Padding="3" Grid.Row="2" Margin="5">Flight Command Port:</TextBlock>
-        <TextBox x:Name="flightCommandPort" Grid.Row="2" Grid.Column="2" Margin="5"></TextBox>
-        <Button x:Name="OKBtn" Content="OK" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="15" Padding="2" Grid.Column="0" Grid.Row="3" Width="47"  Command="{Binding OKBtnCommand}"/>
-        <Button x:Name="CancelBtn" Content="Cancel" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="15" Padding="2" Grid.Column="1" Grid.Row="3" Width="47" Command="{Binding CancelBtnCommand}"/>
+        <TextBox x:Name="flightCommandPort"
+                 Grid.Row="2"
+                 Grid.Column="2" Margin="5"
+                 Text="{Binding FlightCommandPort}"/>
+        <Button x:Name="OKBtn" Content="OK"
+                VerticalAlignment="Top" HorizontalAlignment="Right"
+                Margin="15" Padding="2"
+                Grid.Column="0" Grid.Row="3" Width="47"
+                Command="{Binding OKBtnCommand}"/>
+        <Button x:Name="CancelBtn" Content="Cancel"
+                VerticalAlignment="Top" HorizontalAlignment="Left"
+                Margin="15" Padding="2"
+                Grid.Column="1" Grid.Row="3" Width="47"
+                Command="{Binding CancelBtnCommand}"/>
     </Grid>
 </Window>

@@ -17,17 +17,17 @@ namespace FlightSimulator.Model
 
         public PlaneViewWithButtonsModel()
         {
-            SettingsBtnOpenCommand = new CommandHandler(openSettings);
-            ConnectBtnOpenCommand = new CommandHandler(openConnection);
+            SettingsBtnOpenCommand = new CommandHandler(OpenSettings);
+            ConnectBtnOpenCommand = new CommandHandler(OpenConnection);
         }
 
-        void openSettings()
+        void OpenSettings()
         {
             SettingsWindow settings = new SettingsWindow();
             settings.Show();
         }
 
-        void openConnection()
+        void OpenConnection()
         {
         }
     }

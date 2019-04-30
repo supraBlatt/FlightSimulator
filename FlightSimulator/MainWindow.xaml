@@ -6,7 +6,8 @@
         xmlns:local="clr-namespace:FlightSimulator.Views.Windows"
         xmlns:Views="clr-namespace:FlightSimulator.Views" x:Class="FlightSimulator.Views.Windows.MainWindow"
         mc:Ignorable="d"
-        Title="" Height="560" Width="1000">
+        Title="" Height="560" Width="1000"
+        MinHeight="560" MinWidth="1000">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
