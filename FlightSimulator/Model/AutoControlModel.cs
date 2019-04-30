@@ -12,12 +12,21 @@ namespace FlightSimulator.Model
         public string CommandsString { get; set; }
 
         public ICommand ClearBtnCommand { get; set; }
-        public AutoControlModel() { ClearBtnCommand = new CommandHandler(clearCommands); }
+        public ICommand OKBtnCommand { get; set; }
+        public AutoControlModel() {
+            ClearBtnCommand = new CommandHandler(clearCommands);
+            OKBtnCommand = new CommandHandler(okCommand);
+        }
 
         void clearCommands()
         {
             CommandsString = "";
             System.Diagnostics.Debug.WriteLine("clearing ");
+        }
+
+        void okCommand()
+        {
+
         }
     }
 }

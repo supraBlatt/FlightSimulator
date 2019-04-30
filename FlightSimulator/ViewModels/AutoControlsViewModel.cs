@@ -15,9 +15,12 @@ namespace FlightSimulator.ViewModels
         public string CommandsString
         {
             get { return model.CommandsString; }
+            set { model.CommandsString = value; }
         }
 
         public ICommand ClearBtnCommand { get { return model.ClearBtnCommand; } }
+        public ICommand OKBtnCommand { get { return model.OKBtnCommand; } }
+
         public AutoControlsViewModel() { }
     }
 }
