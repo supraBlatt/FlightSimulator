@@ -38,7 +38,7 @@ namespace FlightSimulator.Model
                         {
                             string commandToSend = Regex.Replace(commands.RemoveElement(), @"\t|\n|\r", "") + "\r\n";
                             System.Diagnostics.Debug.WriteLine("sending = " + commandToSend);
-                            BinaryWriter writer = new BinaryWriter(ns);
+                            StreamWriter writer = new StreamWriter(ns);
                             writer.Write(commandToSend);
                         }
                     }
@@ -113,7 +113,7 @@ namespace FlightSimulator.Model
                     {
                         StreamReader reader = new StreamReader(ns);
                         string command = reader.ReadLine();
-                        System.Diagnostics.Debug.WriteLine("Server adding to queue: " + command);
+                        //System.Diagnostics.Debug.WriteLine("Server adding to queue: " + command);
                         commands.AddElement(command);
                     }
                 }
@@ -169,7 +169,7 @@ namespace FlightSimulator.Model
         {
             string dataBeforeConversion = commands.RemoveElement();
             string[] splitData = dataBeforeConversion.Split(',');
-            System.Diagnostics.Debug.WriteLine("Lon = " + splitData[0] + " Lat = " + splitData[1]);
+            //System.Diagnostics.Debug.WriteLine("Lon = " + splitData[0] + " Lat = " + splitData[1]);
             return splitData;
         }
 
