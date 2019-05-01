@@ -40,8 +40,7 @@ namespace FlightSimulator.Model
 
         void OkCommandFunc()
         {
-            Thread senderThread = new Thread(() => SendCommands(CommandsString));
-            senderThread.Start();
+            new Task(() => SendCommands(CommandsString)).Start();
         }
 
         private void SendCommands(string commands)
