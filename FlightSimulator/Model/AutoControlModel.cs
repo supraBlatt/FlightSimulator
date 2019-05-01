@@ -53,7 +53,7 @@ namespace FlightSimulator.Model
                 {
                     commandSender.SendData(singleCommand);
                     Thread.Sleep(2000);
-                    if (CommandsString.Length > 4)
+                    if (CommandsString.Length > singleCommand.Length+2)
                     {
                         CommandsString = CommandsString.Remove(0, singleCommand.Length + 2);
                     }
