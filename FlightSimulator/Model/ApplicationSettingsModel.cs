@@ -13,8 +13,6 @@ namespace FlightSimulator.Model
         #region Singleton
         private static ISettingsModel m_Instance = null;
 
-        public event PropertyChangedEventHandler PropertyChanged;
-
         public static ISettingsModel Instance
         {
             get

@@ -21,6 +21,7 @@ namespace FlightSimulator.Model
             {
                 commands = commandsQue;
                 this.server = new TcpClient();
+                System.Diagnostics.Debug.WriteLine("Client connecting on ip = {0} and port = {1}", ip, port);
                 server.Connect(ip, port);
             }
             public void sendCommands()
@@ -86,19 +87,25 @@ namespace FlightSimulator.Model
             public PrivateServer(string ip, int port, DataQueue commandsQue)
             {
                 commands = commandsQue;
-                this.server = new TcpListener(new IPAddress(Encoding.Default.GetBytes(ip)), port);
+                System.Diagnostics.Debug.WriteLine("Server connecting on ip = {0} and port = {1}", ip, port);
+                this.server = new TcpListener(IPAddress.Parse(ip), port);
             }
             public void getCommands()
             {
                 byte[] toGet = new byte[4096];
+                server.Start();
                 while (true)
                 {
                     TcpClient client = server.AcceptTcpClient();
+                    System.Diagnostics.Debug.WriteLine("Server accepted client");
                     NetworkStream ns = client.GetStream();
                     while (client.Connected)
                     {
                         ns.Read(toGet, 0, toGet.Length);
-                        commands.AddElement(Encoding.Default.GetString(toGet).Trim());
+                        string command = Encoding.Default.GetString(toGet).Trim();
+                        commands.AddElement(command);
+
+                        System.Diagnostics.Debug.WriteLine("Server adding to queue = {0}", command);
                     }
                 }
             }

@@ -40,11 +40,11 @@ namespace FlightSimulator.Model
 
         void OkCommandFunc()
         {
-            Thread senderThread = new Thread(() => sendCommands(CommandsString));
+            Thread senderThread = new Thread(() => SendCommands(CommandsString));
             senderThread.Start();
         }
 
-        private void sendCommands(string commands)
+        private void SendCommands(string commands)
         {
             foreach (string singleCommand in commands.Split(new[] { "\r\n", "\r", "\n" }, StringSplitOptions.None))
             {
