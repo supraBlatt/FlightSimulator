@@ -26,9 +26,12 @@ namespace FlightSimulator.Model
             get { return _Throttle; }
             set
             {
-                _Throttle = value;
-                string toSend = "set controls/flight/throttle " + value.ToString();
-                commandSender.SendData(toSend);
+                if (value > 0)
+                {
+                    _Throttle = value;
+                    string toSend = "set controls/engines/current-engine/throttle " + value.ToString();
+                    commandSender.SendData(toSend);
+                }
             }
         }
         private double _Aileron;
