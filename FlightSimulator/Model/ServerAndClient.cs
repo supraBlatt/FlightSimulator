@@ -159,7 +159,6 @@ namespace FlightSimulator.Model
             {
                 IsBackground = true
             };
-            System.Diagnostics.Debug.WriteLine("Server connection astablished on ip =" + ip + "and port =" + port);
             serverThread.Start();
         }
 

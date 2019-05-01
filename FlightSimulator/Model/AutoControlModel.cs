@@ -40,15 +40,22 @@ namespace FlightSimulator.Model
 
         void OkCommandFunc()
         {
-            new Task(() => SendCommands(CommandsString)).Start();
+            new Task(() => SendCommands()).Start();
         }
 
-        private void SendCommands(string commands)
+        private void SendCommands()
         {
-            foreach (string singleCommand in commands.Split(new[] { "\r\n", "\r", "\n" }, StringSplitOptions.None))
+            Object Lock = new Object();
+            lock (Lock)
             {
-                commandSender.SendData(singleCommand);
-                Thread.Sleep(2000);
+                string[] subCommands = CommandsString.Split(new[] { "\r\n", "\r", "\n" }, StringSplitOptions.None);
+                foreach (string singleCommand in subCommands)
+                {
+                    commandSender.SendData(singleCommand);
+                    Thread.Sleep(2000);
+                    CommandsString = CommandsString.Remove(0, singleCommand.Length + 2);
+                    System.Diagnostics.Debug.WriteLine("removed = " + singleCommand);
+                }
             }
             ClearCommandsFunc();
         }
