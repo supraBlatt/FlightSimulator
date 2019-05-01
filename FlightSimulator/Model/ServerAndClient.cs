@@ -68,7 +68,7 @@ namespace FlightSimulator.Model
         {
             if (serverThread != null) serverThread.Interrupt();
             PrivateClient server = new PrivateClient(ip, port, commands);
-            serverThread = new Thread(new ThreadStart(server.sendCommands));
+            serverThread = new Thread(server.sendCommands);
             serverThread.IsBackground = true;
             serverThread.Start();
         }
@@ -137,7 +137,7 @@ namespace FlightSimulator.Model
         {
             if (serverThread != null) serverThread.Interrupt();
             PrivateServer server = new PrivateServer(ip, port, commands);
-            serverThread = new Thread(new ThreadStart(server.getCommands));
+            serverThread = new Thread(server.getCommands);
             serverThread.IsBackground = true;
             serverThread.Start();
         }
