@@ -10,11 +10,12 @@ namespace FlightSimulator.Model
     class ManualControlsModel
     {
         private CommandClient commandSender = CommandClient.Instance;
+
         //property for the Rudder of the plane
         private double _Rudder;
         public double Rudder
         {
-            get { return _Rudder; }
+            get { return _rudder; }
             set
             {
                 _Rudder = value;
@@ -24,11 +25,10 @@ namespace FlightSimulator.Model
                 commandSender.SendData(toSend);
             }
         }
-        //property for the Throttle of the plane
         private double _Throttle;
         public double Throttle
         {
-            get { return _Throttle; }
+            get { return _throttle; }
             set
             {
                 if (value >= 0)
