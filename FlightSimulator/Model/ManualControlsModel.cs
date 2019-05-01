@@ -9,26 +9,29 @@ namespace FlightSimulator.Model
     class ManualControlsModel
     {
         private CommandClient commandSender = CommandClient.Instance;
-        private double _Rudder;
+        private double _rudder;
         public double Rudder
         {
-            get { return _Rudder; }
+            get { return _rudder; }
             set
             {
-                _Rudder = value;
+                _rudder = value;
                 string toSend = "set controls/flight/rudder " + value.ToString();
                 commandSender.SendData(toSend);
             }
         }
-        private double _Throttle;
+
+        private double _throttle;
+        private double _trueThrottle;
         public double Throttle
         {
-            get { return _Throttle; }
+            get { return _throttle; }
             set
             {
-                if (value > 0)
+                _throttle = value;
+                if (value >= 0)
                 {
-                    _Throttle = value;
+                    _trueThrottle = value;
                     string toSend = "set controls/engines/current-engine/throttle " + value.ToString();
                     commandSender.SendData(toSend);
                 }
