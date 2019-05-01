@@ -44,12 +44,16 @@ namespace FlightSimulator.Views
             plotter.AddLineGraph(planeLocations, 2, "Route");
         }
 
+        /*adds a new point that needs to be added to the graph*/
         private void Vm_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
+            //only run if a new point needs to be added
             if (e.PropertyName.Equals("new point"))
             {
                 FlightBoardViewModel data = sender as FlightBoardViewModel;
+                //get the point
                 Point toAdd = new Point(data.Lat, data.Lon);
+                //add the point
                 planeLocations.AppendAsync(Dispatcher, toAdd);
                 //System.Diagnostics.Debug.WriteLine("new point added!");
             }
