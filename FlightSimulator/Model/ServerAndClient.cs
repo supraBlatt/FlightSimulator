@@ -36,7 +36,7 @@ namespace FlightSimulator.Model
                     {
                         while (!commands.IsEmpty())
                         {
-                            string commandToSend = Regex.Replace(commands.RemoveElement(), @"\t|\n|\r", "") + "\r\n";
+                            string commandToSend = Regex.Replace(commands.RemoveElement(), @"\n|\r", "") + "\r\n";
                             System.Diagnostics.Debug.WriteLine("sending = " + commandToSend);
                             BinaryWriter writer = new BinaryWriter(ns);
                             writer.Write(commandToSend);
