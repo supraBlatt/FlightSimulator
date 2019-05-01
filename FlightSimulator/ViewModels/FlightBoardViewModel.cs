@@ -19,16 +19,16 @@ namespace FlightSimulator.ViewModels
 
         private void Vm_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            if(e.PropertyName.Equals("Added"))
+            if (e.PropertyName.Equals("Added"))
             {
                 string[] data = InfoServer.Instance.getData();
                 double newLon = Double.Parse(data[0]);
                 double newLat = Double.Parse(data[1]);
-                if(newLon != Lon)
+                if (newLon != Lon)
                 {
                     Lon = newLon;
                 }
-                if(newLat != Lat)
+                if (newLat != Lat)
                 {
                     Lat = newLat;
                 }

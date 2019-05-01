@@ -81,7 +81,7 @@ namespace FlightSimulator.Model
         }
         public void SendData(string command)
         {
-            if(serverThread != null) commands.AddElement(command);
+            if (serverThread != null) commands.AddElement(command);
         }
     }
 
@@ -135,7 +135,7 @@ namespace FlightSimulator.Model
 
 
         // event for registering to dataqueue changes
-        
+
 
         private Thread serverThread;
         private DataQueue commands;
