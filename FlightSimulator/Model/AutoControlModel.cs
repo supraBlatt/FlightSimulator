@@ -5,12 +5,14 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using FlightSimulator.ViewModels;
+using System.Threading;
 
 namespace FlightSimulator.Model
 {
     class AutoControlModel : BaseNotify
     {
-        string _commandString;
+        private CommandClient commandSender;
+        private string _commandString;
         public string CommandsString
         {
             get { return _commandString; }
@@ -38,8 +40,18 @@ namespace FlightSimulator.Model
 
         void OkCommandFunc()
         {
-
+            Thread senderThread = new Thread(() => sendCommands(CommandsString));
+            senderThread.Start();
             ClearCommandsFunc();
+        }
+
+        private void sendCommands(string commands)
+        {
+            foreach (string singleCommand in commands.Split(new[] { "\r\n", "\r", "\n" }, StringSplitOptions.None))
+            {
+                commandSender.sendData(singleCommand);
+                Thread.Sleep(2000);
+            }
         }
     }
 }

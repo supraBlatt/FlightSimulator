@@ -5,12 +5,17 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using FlightSimulator.Views.Windows;
+using FlightSimulator.Model.Interface;
 
 namespace FlightSimulator.Model
 {
     
     public class PlaneViewWithButtonsModel
     {
+        private CommandClient commandsSender;
+        private InfoServer infoReceiver;
+        private ISettingsModel settings;
+
         public ICommand SettingsBtnOpenCommand { get; }
 
         public ICommand ConnectBtnOpenCommand { get; }
@@ -29,6 +34,8 @@ namespace FlightSimulator.Model
 
         void OpenConnection()
         {
+            commandsSender.connect(settings.FlightServerIP, settings.FlightCommandPort);
+            infoReceiver.connect(settings.FlightServerIP, settings.FlightInfoPort);
         }
     }
 }
