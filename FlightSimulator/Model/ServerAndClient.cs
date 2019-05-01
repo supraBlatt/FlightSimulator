@@ -111,9 +111,9 @@ namespace FlightSimulator.Model
                     NetworkStream ns = client.GetStream();
                     while (client.Connected)
                     {
-                        BinaryReader reader = new BinaryReader(ns);
-                        string command = reader.ReadString();
-                        System.Diagnostics.Debug.WriteLine("Server adding to queue = {0}", command);
+                        StreamReader reader = new StreamReader(ns);
+                        string command = reader.ReadLine();
+                        System.Diagnostics.Debug.WriteLine("Server adding to queue: " + command);
                         commands.AddElement(command);
                     }
                 }
@@ -169,6 +169,7 @@ namespace FlightSimulator.Model
         {
             string dataBeforeConversion = commands.RemoveElement();
             string[] splitData = dataBeforeConversion.Split(',');
+            System.Diagnostics.Debug.WriteLine("Lon = " + splitData[0] + " Lat = " + splitData[1]);
             return splitData;
         }
 
