@@ -9,6 +9,7 @@ using System.Net.Sockets;
 using System.Windows;
 using System.ComponentModel;
 using System.IO;
+using System.Text.RegularExpressions;
 using FlightSimulator.ViewModels;
 
 namespace FlightSimulator.Model
@@ -28,7 +29,6 @@ namespace FlightSimulator.Model
             }
             public void SendCommands()
             {
-                byte[] toSend = new byte[2048];
                 NetworkStream ns = server.GetStream();
                 while (true)
                 {
@@ -36,7 +36,7 @@ namespace FlightSimulator.Model
                     {
                         while (!commands.IsEmpty())
                         {
-                            string commandToSend = commands.RemoveElement() + "\r\n";
+                            string commandToSend = Regex.Replace(commands.RemoveElement(), @"\t|\n|\r", "") + "\r\n";
                             System.Diagnostics.Debug.WriteLine("sending = " + commandToSend);
                             BinaryWriter writer = new BinaryWriter(ns);
                             writer.Write(commandToSend);
@@ -67,6 +67,7 @@ namespace FlightSimulator.Model
         {
             serverThread = null;
             commands = new DataQueue();
+            InfoServer.Instance.AddToConnectorEvent(this.Connect);
         }
         public void Connect(string ip, int port)
         {
@@ -87,24 +88,30 @@ namespace FlightSimulator.Model
 
     public class InfoServer : BaseNotify
     {
+        public delegate void connectDelegate(string ip, int port);
         class PrivateServer
         {
+            public event connectDelegate connectEvent;
             private TcpListener server;
             private DataQueue commands;
-            public PrivateServer(string ip, int port, DataQueue commandsQue)
+            private string ip;
+            private int commandPort;
+            public PrivateServer(string ip, int port, int commandPort, DataQueue commandsQue)
             {
                 commands = commandsQue;
                 System.Diagnostics.Debug.WriteLine("Server connecting on ip = {0} and port = {1}", ip, port);
                 this.server = new TcpListener(IPAddress.Parse(ip), port);
+                this.ip = ip;
+                this.commandPort = commandPort;
             }
             public void GetCommands()
             {
-                byte[] toGet = new byte[4096];
                 server.Start();
                 while (true)
                 {
                     TcpClient client = server.AcceptTcpClient();
                     System.Diagnostics.Debug.WriteLine("Server accepted client");
+                    this?.connectEvent(ip, commandPort);
                     NetworkStream ns = client.GetStream();
                     while (client.Connected)
                     {
@@ -137,6 +144,7 @@ namespace FlightSimulator.Model
 
 
         private Thread serverThread;
+        private PrivateServer server;
         private DataQueue commands;
         private InfoServer()
         {
@@ -144,10 +152,10 @@ namespace FlightSimulator.Model
             commands = new DataQueue();
             commands.PropertyChanged += Vm_PropertyChanged;
         }
-        public void Connect(string ip, int port)
+        public void Connect(string ip, int port, int commandport)
         {
             if (serverThread != null) serverThread.Interrupt();
-            PrivateServer server = new PrivateServer(ip, port, commands);
+            server = new PrivateServer(ip, port, commandport, commands);
             serverThread = new Thread(new ThreadStart(server.GetCommands))
             {
                 IsBackground = true
@@ -166,6 +174,11 @@ namespace FlightSimulator.Model
             string dataBeforeConversion = commands.RemoveElement();
             string[] splitData = dataBeforeConversion.Split(',');
             return splitData;
+        }
+
+        public void AddToConnectorEvent(connectDelegate connector)
+        {
+            this.server.connectEvent += connector;
         }
     }
 
