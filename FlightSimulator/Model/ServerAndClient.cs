@@ -7,7 +7,7 @@ using System.Threading;
 using System.Net;
 using System.Net.Sockets;
 using System.Windows;
-
+using FlightSimulator.ViewModels;
 
 namespace FlightSimulator.Model
 {
@@ -134,18 +134,10 @@ namespace FlightSimulator.Model
             serverThread.IsBackground = true;
             serverThread.Start();
         }
-        public double[] getData()
-        {
-            if (commands.isEmpty()) return null;
-            string toSplit = commands.RemoveElement();
-            string[] splitData = toSplit.Split(',');
-            double[] ret = { Double.Parse(splitData[0]), Double.Parse(splitData[1]) };
-            return ret;
-        }
     }
 
     /*thread safe queue to store all of the data (sent / received) from the server/client*/
-    class DataQueue
+    class DataQueue : BaseNotify
     {
         //used for the lock statement
         private readonly Object Lock = new Object();
@@ -168,15 +160,19 @@ namespace FlightSimulator.Model
             {
                 Data.Enqueue(add);
             }
+            NotifyPropertyChanged("Added");
         }
 
         /*removes a given element from the queue*/
         public string RemoveElement()
         {
+            string ret;
             lock (Lock)
             {
-                return Data.Dequeue();
+                ret = Data.Dequeue();
             }
+            NotifyPropertyChanged("Removed");
+            return ret;
         }
     }
 }

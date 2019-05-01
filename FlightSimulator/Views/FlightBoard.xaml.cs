@@ -17,6 +17,7 @@ using FlightSimulator.Model;
 using FlightSimulator.ViewModels;
 using Microsoft.Research.DynamicDataDisplay;
 using Microsoft.Research.DynamicDataDisplay.DataSources;
+using FlightSimulator.ViewModels;
 
 namespace FlightSimulator.Views
 {
@@ -44,8 +45,9 @@ namespace FlightSimulator.Views
         {
             if(e.PropertyName.Equals("Lat") || e.PropertyName.Equals("Lon"))
             {
-                Point p1 = new Point(0,0);            // Fill here!
-                planeLocations.AppendAsync(Dispatcher, p1);
+                FlightBoardViewModel data = (FlightBoardViewModel)sender; 
+                Point toAdd = new Point(data.Lat, data.Lon);
+                planeLocations.AppendAsync(Dispatcher, toAdd);
             }
         }
 
