@@ -33,7 +33,7 @@ namespace FlightSimulator.Model
                     {
                         while (!commands.isEmpty())
                         {
-                            toSend = Encoding.Default.GetBytes(commands.RemoveMember());
+                            toSend = Encoding.Default.GetBytes(commands.RemoveElement());
                             ns.Write(toSend, 0, toSend.Length);
                         }
                     }
@@ -73,7 +73,7 @@ namespace FlightSimulator.Model
         }
         public void sendData(string command)
         {
-            if(serverThread != null) commands.AddMember(command);
+            if(serverThread != null) commands.AddElement(command);
         }
     }
 
@@ -90,7 +90,7 @@ namespace FlightSimulator.Model
             }
             public void getCommands()
             {
-                byte[] toGet = new byte[2048];
+                byte[] toGet = new byte[4096];
                 while (true)
                 {
                     TcpClient client = server.AcceptTcpClient();
@@ -98,7 +98,7 @@ namespace FlightSimulator.Model
                     while (client.Connected)
                     {
                         ns.Read(toGet, 0, toGet.Length);
-                        commands.AddMember(Encoding.Default.GetString(toGet).Trim());
+                        commands.AddElement(Encoding.Default.GetString(toGet).Trim());
                     }
                 }
             }
@@ -137,18 +137,22 @@ namespace FlightSimulator.Model
         public double[] getData()
         {
             if (commands.isEmpty()) return null;
-            string toSplit = commands.RemoveMember();
+            string toSplit = commands.RemoveElement();
             string[] splitData = toSplit.Split(',');
             double[] ret = { Double.Parse(splitData[0]), Double.Parse(splitData[1]) };
             return ret;
         }
     }
 
+    /*thread safe queue to store all of the data (sent / received) from the server/client*/
     class DataQueue
     {
+        //used for the lock statement
         private readonly Object Lock = new Object();
+        //the actual data queue to lock
         private Queue<String> Data = new Queue<string>();
 
+        /*checks if the queue is empty*/
         public bool isEmpty()
         {
             lock (Lock)
@@ -157,14 +161,17 @@ namespace FlightSimulator.Model
             }
         }
 
-        public void AddMember(string add)
+        /*adds a given element to the queue*/
+        public void AddElement(string add)
         {
             lock (Lock)
             {
                 Data.Enqueue(add);
             }
         }
-        public string RemoveMember()
+
+        /*removes a given element from the queue*/
+        public string RemoveElement()
         {
             lock (Lock)
             {
