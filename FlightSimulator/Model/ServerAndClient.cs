@@ -8,6 +8,7 @@ using System.Net;
 using System.Net.Sockets;
 using System.Windows;
 using System.ComponentModel;
+using System.IO;
 using FlightSimulator.ViewModels;
 
 namespace FlightSimulator.Model
@@ -36,10 +37,9 @@ namespace FlightSimulator.Model
                         while (!commands.IsEmpty())
                         {
                             string commandToSend = commands.RemoveElement();
-                            System.Diagnostics.Debug.WriteLine("Trying to send = " + commandToSend);
-                            toSend = Encoding.ASCII.GetBytes(commandToSend);
-                            ns.Write(toSend, 0, toSend.Length);
-                            System.Diagnostics.Debug.WriteLine("Sent = {0}", toSend);
+                            System.Diagnostics.Debug.WriteLine("sending = " + commandToSend);
+                            BinaryWriter writer = new BinaryWriter(ns);
+                            writer.Write(commandToSend);
                         }
                     }
                 }
@@ -108,11 +108,10 @@ namespace FlightSimulator.Model
                     NetworkStream ns = client.GetStream();
                     while (client.Connected)
                     {
-                        ns.Read(toGet, 0, toGet.Length);
-                        string command = Encoding.Default.GetString(toGet).Trim();
-                        commands.AddElement(command);
-
+                        BinaryReader reader = new BinaryReader(ns);
+                        string command = reader.ReadString();
                         System.Diagnostics.Debug.WriteLine("Server adding to queue = {0}", command);
+                        commands.AddElement(command);
                     }
                 }
             }
