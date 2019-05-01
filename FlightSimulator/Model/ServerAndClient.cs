@@ -24,7 +24,7 @@ namespace FlightSimulator.Model
                 System.Diagnostics.Debug.WriteLine("Client connecting on ip = {0} and port = {1}", ip, port);
                 server.Connect(ip, port);
             }
-            public void sendCommands()
+            public void SendCommands()
             {
                 byte[] toSend = new byte[2048];
                 NetworkStream ns = server.GetStream();
@@ -32,10 +32,13 @@ namespace FlightSimulator.Model
                 {
                     while (server.Connected)
                     {
-                        while (!commands.isEmpty())
+                        while (!commands.IsEmpty())
                         {
-                            toSend = Encoding.Default.GetBytes(commands.RemoveElement());
+                            string commandToSend = commands.RemoveElement();
+                            System.Diagnostics.Debug.WriteLine("Trying to send = " + commandToSend);
+                            toSend = Encoding.ASCII.GetBytes(commandToSend);
                             ns.Write(toSend, 0, toSend.Length);
+                            System.Diagnostics.Debug.WriteLine("Sent = {0}", toSend);
                         }
                     }
                 }
@@ -64,15 +67,18 @@ namespace FlightSimulator.Model
             serverThread = null;
             commands = new DataQueue();
         }
-        public void connect(string ip, int port)
+        public void Connect(string ip, int port)
         {
             if (serverThread != null) serverThread.Interrupt();
             PrivateClient server = new PrivateClient(ip, port, commands);
-            serverThread = new Thread(new ThreadStart(server.sendCommands));
-            serverThread.IsBackground = true;
+            serverThread = new Thread(new ThreadStart(server.SendCommands))
+            {
+                IsBackground = true
+            };
+            System.Diagnostics.Debug.WriteLine("Client connection astablished on ip = {0} and port = {1}", ip, port);
             serverThread.Start();
         }
-        public void sendData(string command)
+        public void SendData(string command)
         {
             if(serverThread != null) commands.AddElement(command);
         }
@@ -90,7 +96,7 @@ namespace FlightSimulator.Model
                 System.Diagnostics.Debug.WriteLine("Server connecting on ip = {0} and port = {1}", ip, port);
                 this.server = new TcpListener(IPAddress.Parse(ip), port);
             }
-            public void getCommands()
+            public void GetCommands()
             {
                 byte[] toGet = new byte[4096];
                 server.Start();
@@ -126,6 +132,10 @@ namespace FlightSimulator.Model
         }
         #endregion
 
+
+        // event for registering to dataqueue changes
+        
+
         private Thread serverThread;
         private DataQueue commands;
         private InfoServer()
@@ -133,12 +143,15 @@ namespace FlightSimulator.Model
             serverThread = null;
             commands = new DataQueue();
         }
-        public void connect(string ip, int port)
+        public void Connect(string ip, int port)
         {
             if (serverThread != null) serverThread.Interrupt();
             PrivateServer server = new PrivateServer(ip, port, commands);
-            serverThread = new Thread(new ThreadStart(server.getCommands));
-            serverThread.IsBackground = true;
+            serverThread = new Thread(new ThreadStart(server.GetCommands))
+            {
+                IsBackground = true
+            };
+            System.Diagnostics.Debug.WriteLine("Server connection astablished on ip = {0} and port = {1}", ip, port);
             serverThread.Start();
         }
     }
@@ -152,7 +165,7 @@ namespace FlightSimulator.Model
         private Queue<String> Data = new Queue<string>();
 
         /*checks if the queue is empty*/
-        public bool isEmpty()
+        public bool IsEmpty()
         {
             lock (Lock)
             {

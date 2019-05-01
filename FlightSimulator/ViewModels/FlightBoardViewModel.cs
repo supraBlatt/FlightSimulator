@@ -11,20 +11,29 @@ namespace FlightSimulator.ViewModels
 {
     public class FlightBoardViewModel : BaseNotify
     {
+
+        public FlightBoardViewModel()
+        {
+
+        }
+
         private void Vm_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            if(e.PropertyName.Equals("added"))
+            if(e.PropertyName.Equals("Added"))
             {
-                string dataBeforeConversion = ((DataQueue)sender).RemoveElement();
+                string dataBeforeConversion = (sender as DataQueue).RemoveElement();
+                // so you add it to the queue and immediately remove it to here?
+
                 string[] splitData = dataBeforeConversion.Split(',');
-                double[] lonLat = { Double.Parse(splitData[0]), Double.Parse(splitData[1]) };
-                if(Double.Parse(splitData[0]) != Lon)
+                double newLon = Double.Parse(splitData[0]);
+                double newLat = Double.Parse(splitData[1]);
+                if(newLon != Lon)
                 {
-                    Lon = Double.Parse(splitData[0]);
+                    Lon = newLon;
                 }
-                if(Double.Parse(splitData[1]) != Lat)
+                if(newLat != Lat)
                 {
-                    Lat = Double.Parse(splitData[1]);
+                    Lat = newLat;
                 }
             }
         }
@@ -39,6 +48,7 @@ namespace FlightSimulator.ViewModels
                 NotifyPropertyChanged("Lon");
             }
         }
+
         private double _Lat;
         public double Lat
         {

@@ -48,7 +48,7 @@ namespace FlightSimulator.Model
         {
             foreach (string singleCommand in commands.Split(new[] { "\r\n", "\r", "\n" }, StringSplitOptions.None))
             {
-                commandSender.sendData(singleCommand);
+                commandSender.SendData(singleCommand);
                 Thread.Sleep(2000);
             }
             ClearCommandsFunc();

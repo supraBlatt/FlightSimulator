@@ -17,7 +17,7 @@ namespace FlightSimulator.Model
             {
                 _Rudder = value;
                 string toSend = "set controls/flight/rudder " + value.ToString();
-                commandSender.sendData(toSend);
+                commandSender.SendData(toSend);
             }
         }
         private double _Throttle;
@@ -28,7 +28,7 @@ namespace FlightSimulator.Model
             {
                 _Throttle = value;
                 string toSend = "set controls/flight/throttle " + value.ToString();
-                commandSender.sendData(toSend);
+                commandSender.SendData(toSend);
             }
         }
         private double _Aileron;
@@ -39,7 +39,7 @@ namespace FlightSimulator.Model
             {
                 _Aileron = value;
                 string toSend = "set controls/flight/aileron " + value.ToString();
-                commandSender.sendData(toSend);
+                commandSender.SendData(toSend);
             }
         }
         private double _Elevator;
@@ -50,7 +50,7 @@ namespace FlightSimulator.Model
             {
                 _Elevator = value;
                 string toSend = "set controls/flight/elevator " + value.ToString();
-                commandSender.sendData(toSend);
+                commandSender.SendData(toSend);
             }
         }
 
