@@ -94,18 +94,14 @@ namespace FlightSimulator.Model
             public event connectDelegate connectEvent;
             private TcpListener server;
             private DataQueue commands;
-            private string ip;
-            private int commandPort;
-            public PrivateServer(string ip, int port, int commandPort, DataQueue commandsQue)
+            public PrivateServer(DataQueue commandsQue)
             {
                 commands = commandsQue;
-                System.Diagnostics.Debug.WriteLine("Server connecting on ip = {0} and port = {1}", ip, port);
-                this.server = new TcpListener(IPAddress.Parse(ip), port);
-                this.ip = ip;
-                this.commandPort = commandPort;
             }
-            public void GetCommands()
+            public void GetCommands(string ip, int port, int commandPort)
             {
+                server = new TcpListener(IPAddress.Parse(ip), port);
+                System.Diagnostics.Debug.WriteLine("Server connecting on ip = {0} and port = {1}", ip, port);
                 server.Start();
                 while (true)
                 {
@@ -151,12 +147,12 @@ namespace FlightSimulator.Model
             serverThread = null;
             commands = new DataQueue();
             commands.PropertyChanged += Vm_PropertyChanged;
+            server = new PrivateServer(commands);
         }
         public void Connect(string ip, int port, int commandport)
         {
             if (serverThread != null) serverThread.Interrupt();
-            server = new PrivateServer(ip, port, commandport, commands);
-            serverThread = new Thread(new ThreadStart(server.GetCommands))
+            serverThread = new Thread(()=>server.GetCommands(ip, port, commandport))
             {
                 IsBackground = true
             };
