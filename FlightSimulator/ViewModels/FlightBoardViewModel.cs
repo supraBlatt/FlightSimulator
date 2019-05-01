@@ -24,14 +24,18 @@ namespace FlightSimulator.ViewModels
                 string[] data = InfoServer.Instance.getData();
                 double newLon = Double.Parse(data[0]);
                 double newLat = Double.Parse(data[1]);
+                Boolean changed = false;
                 if (newLon != Lon)
                 {
                     Lon = newLon;
+                    changed = true;
                 }
                 if (newLat != Lat)
                 {
                     Lat = newLat;
+                    changed = true;
                 }
+                if(changed) NotifyPropertyChanged("new point");
             }
         }
 
@@ -42,7 +46,6 @@ namespace FlightSimulator.ViewModels
             set
             {
                 _Lon = value;
-                NotifyPropertyChanged("Lon");
             }
         }
 
@@ -53,7 +56,6 @@ namespace FlightSimulator.ViewModels
             set
             {
                 _Lat = value;
-                NotifyPropertyChanged("Lat");
             }
         }
     }
