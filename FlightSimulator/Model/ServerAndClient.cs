@@ -7,6 +7,7 @@ using System.Threading;
 using System.Net;
 using System.Net.Sockets;
 using System.Windows;
+using System.ComponentModel;
 using FlightSimulator.ViewModels;
 
 namespace FlightSimulator.Model
@@ -84,7 +85,7 @@ namespace FlightSimulator.Model
         }
     }
 
-    public class InfoServer
+    public class InfoServer : BaseNotify
     {
         class PrivateServer
         {
@@ -142,6 +143,7 @@ namespace FlightSimulator.Model
         {
             serverThread = null;
             commands = new DataQueue();
+            commands.PropertyChanged += Vm_PropertyChanged;
         }
         public void Connect(string ip, int port)
         {
@@ -153,6 +155,18 @@ namespace FlightSimulator.Model
             };
             System.Diagnostics.Debug.WriteLine("Server connection astablished on ip = {0} and port = {1}", ip, port);
             serverThread.Start();
+        }
+
+        private void Vm_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            NotifyPropertyChanged(e.PropertyName);
+        }
+
+        public string[] getData()
+        {
+            string dataBeforeConversion = commands.RemoveElement();
+            string[] splitData = dataBeforeConversion.Split(',');
+            return splitData;
         }
     }
 

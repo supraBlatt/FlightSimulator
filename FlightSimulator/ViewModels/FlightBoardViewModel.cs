@@ -14,19 +14,16 @@ namespace FlightSimulator.ViewModels
 
         public FlightBoardViewModel()
         {
-
+            InfoServer.Instance.PropertyChanged += Vm_PropertyChanged;
         }
 
         private void Vm_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             if(e.PropertyName.Equals("Added"))
             {
-                string dataBeforeConversion = (sender as DataQueue).RemoveElement();
-                // so you add it to the queue and immediately remove it to here?
-
-                string[] splitData = dataBeforeConversion.Split(',');
-                double newLon = Double.Parse(splitData[0]);
-                double newLat = Double.Parse(splitData[1]);
+                string[] data = InfoServer.Instance.getData();
+                double newLon = Double.Parse(data[0]);
+                double newLat = Double.Parse(data[1]);
                 if(newLon != Lon)
                 {
                     Lon = newLon;
