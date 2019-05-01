@@ -107,7 +107,7 @@ namespace FlightSimulator.Model
                 {
                     TcpClient client = server.AcceptTcpClient();
                     System.Diagnostics.Debug.WriteLine("Server accepted client");
-                    this?.connectEvent(ip, commandPort);
+                    connectEvent?.Invoke(ip, commandPort);
                     NetworkStream ns = client.GetStream();
                     while (client.Connected)
                     {
@@ -156,7 +156,7 @@ namespace FlightSimulator.Model
             {
                 IsBackground = true
             };
-            System.Diagnostics.Debug.WriteLine("Server connection astablished on ip = {0} and port = {1}", ip, port);
+            System.Diagnostics.Debug.WriteLine("Server connection astablished on ip =" + ip + "and port =" + port);
             serverThread.Start();
         }
 
