@@ -73,7 +73,7 @@ namespace FlightSimulator.Model
         }
         public void sendData(string command)
         {
-            commands.AddMember(command);
+            if(serverThread != null) commands.AddMember(command);
         }
     }
 
