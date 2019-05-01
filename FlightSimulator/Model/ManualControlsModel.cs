@@ -12,28 +12,30 @@ namespace FlightSimulator.Model
         private CommandClient commandSender = CommandClient.Instance;
 
         //property for the Rudder of the plane
-        private double _Rudder;
+        private double _rudder;
         public double Rudder
         {
             get { return _rudder; }
             set
             {
-                _Rudder = value;
+                _rudder = value;
                 //convert the Rudder in to the specific command to change it in the Flight Simulator
                 string toSend = "set controls/flight/rudder " + value.ToString();
                 //send the command through the client for the commands
                 commandSender.SendData(toSend);
             }
         }
-        private double _Throttle;
+        private double _throttle;
+        private double _realThrottle;
         public double Throttle
         {
             get { return _throttle; }
             set
             {
+                _throttle = value;
                 if (value >= 0)
                 {
-                    _Throttle = value;
+                    _realThrottle = value;
                     //convert the Throttle in to the specific command to change it in the Flight Simulator
                     string toSend = "set controls/engines/current-engine/throttle " + value.ToString();
                     //send the command through the client for the commands
