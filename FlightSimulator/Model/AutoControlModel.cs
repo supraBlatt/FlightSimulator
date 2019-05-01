@@ -11,7 +11,7 @@ namespace FlightSimulator.Model
 {
     class AutoControlModel : BaseNotify
     {
-        private CommandClient commandSender;
+        private CommandClient commandSender = CommandClient.Instance;
         private string _commandString;
         public string CommandsString
         {
@@ -42,7 +42,6 @@ namespace FlightSimulator.Model
         {
             Thread senderThread = new Thread(() => sendCommands(CommandsString));
             senderThread.Start();
-            ClearCommandsFunc();
         }
 
         private void sendCommands(string commands)
@@ -52,6 +51,7 @@ namespace FlightSimulator.Model
                 commandSender.sendData(singleCommand);
                 Thread.Sleep(2000);
             }
+            ClearCommandsFunc();
         }
     }
 }

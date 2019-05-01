@@ -12,9 +12,9 @@ namespace FlightSimulator.Model
     
     public class PlaneViewWithButtonsModel
     {
-        private CommandClient commandsSender;
-        private InfoServer infoReceiver;
-        private ISettingsModel settings;
+        private CommandClient commandsSender = CommandClient.Instance;
+        private InfoServer infoReceiver = InfoServer.Instance;
+        private ISettingsModel settings = ApplicationSettingsModel.Instance;
 
         public ICommand SettingsBtnOpenCommand { get; }
 

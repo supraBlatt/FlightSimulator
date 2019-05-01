@@ -8,7 +8,7 @@ namespace FlightSimulator.Model
 {
     class ManualControlsModel
     {
-        private CommandClient commandSender;
+        private CommandClient commandSender = CommandClient.Instance;
         private double _Rudder;
         public double Rudder
         {

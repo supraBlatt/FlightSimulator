@@ -41,9 +41,24 @@ namespace FlightSimulator.Model
             }
         }
 
+        #region Singleton
+        private static CommandClient _Instance = null;
+        public static CommandClient Instance
+        {
+            get
+            {
+                if (_Instance == null)
+                {
+                    _Instance = new CommandClient();
+                }
+                return _Instance;
+            }
+        }
+        #endregion
+
         private Thread serverThread;
         private DataQueue commands;
-        public CommandClient()
+        private CommandClient()
         {
             serverThread = null;
             commands = new DataQueue();
@@ -89,9 +104,24 @@ namespace FlightSimulator.Model
             }
         }
 
+        #region Singleton
+        private static InfoServer _Instance = null;
+        public static InfoServer Instance
+        {
+            get
+            {
+                if (_Instance == null)
+                {
+                    _Instance = new InfoServer();
+                }
+                return _Instance;
+            }
+        }
+        #endregion
+
         private Thread serverThread;
         private DataQueue commands;
-        public InfoServer()
+        private InfoServer()
         {
             serverThread = null;
             commands = new DataQueue();
