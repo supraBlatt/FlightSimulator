@@ -43,7 +43,7 @@
 
         <Slider x:Name="ThrottleBar" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Center"
                 VerticalAlignment="Center" Width="250" TickPlacement="TopLeft" TickFrequency="0.1" IsSnapToTickEnabled="True" IsMoveToPointEnabled="True"
-                Maximum="1" Minimum="-1" FlowDirection="RightToLeft" Value="{Binding Throttle, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                Maximum="1" Minimum="-1" FlowDirection="RightToLeft" Value="{Binding VM_Throttle, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
             <Slider.LayoutTransform>
                 <RotateTransform Angle="90"/>
             </Slider.LayoutTransform>

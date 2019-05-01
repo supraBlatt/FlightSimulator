@@ -35,7 +35,7 @@ namespace FlightSimulator.Model
         void OpenConnection()
         {
             commandsSender.Connect(settings.FlightServerIP, settings.FlightCommandPort);
-            infoReceiver.Connect(settings.FlightServerIP, settings.FlightInfoPort);
+            //infoReceiver.Connect(settings.FlightServerIP, settings.FlightInfoPort);
         }
     }
 }
