@@ -29,17 +29,21 @@ namespace FlightSimulator.Model
             }
             public void SendCommands()
             {
-                NetworkStream ns = server.GetStream();
-                while (true)
+
+                using (NetworkStream ns = server.GetStream())
+                using (BinaryWriter writer = new BinaryWriter(ns))
                 {
-                    while (server.Connected)
+                    while (true)
                     {
-                        while (!commands.IsEmpty())
+                        while (server.Connected)
                         {
-                            string commandToSend = Regex.Replace(commands.RemoveElement(), @"\n|\r", "") + "\r\n";
-                            System.Diagnostics.Debug.WriteLine("sending = " + commandToSend);
-                            BinaryWriter writer = new BinaryWriter(ns);
-                            writer.Write(commandToSend);
+                            while (!commands.IsEmpty())
+                            {
+                                string commandToSend = Regex.Replace(commands.RemoveElement(), @"\n|\r", "") + "\r\n";
+                                System.Diagnostics.Debug.WriteLine("sending = " + commandToSend);
+                                writer.Write(commandToSend.ToCharArray());
+                                
+                            }
                         }
                     }
                 }
@@ -113,7 +117,6 @@ namespace FlightSimulator.Model
                     {
                         StreamReader reader = new StreamReader(ns);
                         string command = reader.ReadLine();
-                        System.Diagnostics.Debug.WriteLine("Server adding to queue: " + command);
                         commands.AddElement(command);
                     }
                 }
@@ -169,7 +172,7 @@ namespace FlightSimulator.Model
         {
             string dataBeforeConversion = commands.RemoveElement();
             string[] splitData = dataBeforeConversion.Split(',');
-            System.Diagnostics.Debug.WriteLine("Lon = " + splitData[0] + " Lat = " + splitData[1]);
+            //System.Diagnostics.Debug.WriteLine("Lon = " + splitData[0] + " Lat = " + splitData[1]);
             return splitData;
         }
 
