@@ -117,7 +117,7 @@ namespace FlightSimulator.Model
     class DataQueue
     {
         private readonly Object Lock = new Object();
-        private Queue<String> Data;
+        private Queue<String> Data = new Queue<string>();
 
         public bool isEmpty()
         {
